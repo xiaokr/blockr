@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="google" value="notranslate">
+  <title>Blockr v0.1</title>
+  <link rel="stylesheet" href="blockly/style.css">
+  <script src="blockly/appengine/storage.js"></script>
+  <script src="blockly/blockly_compressed.js"></script>
+  <script src="blockly/blocks_compressed.js"></script>
+  <script src="blockly/javascript_compressed.js"></script>
+  <script src="blockly/python_compressed.js"></script>
+  <script src="blockly/php_compressed.js"></script>
+  <script src="blockly/dart_compressed.js"></script>
+  <script src="views/code.js"></script>
+  <script src="blockly/blocks/kr.js"></script>
+  <script src="blockly/generators/python/kr.js"></script>
+</head>
+<body>
+  <table width="100%" height="100%">
+    <tr>
+      <td>
+        <h1><a href="/">Blockr</a>&rlm; &gt;
+          <span id="title">...</span>
+        </h1>
+      </td>
+      <td class="farSide">
+        <select id="languageMenu"></select>
+      </td>
+    </tr>
+    <tr>
+      <td colspan=2>
+        <table width="100%">
+          <tr id="tabRow" height="1em">
+            <td id="tab_blocks" class="tabon">...</td>
+            <td class="tabmin">&nbsp;</td>
+            <td id="tab_python" class="taboff">Python</td>
+            <td class="tabmin">&nbsp;</td>
+            <td id="tab_xml" class="taboff">XML</td>
+            <td class="tabmax">
+              <button id="trashButton" class="notext" title="...">
+                <img src='blockly/media/1x1.gif' class="trash icon21">
+              </button>
+              <button id="linkButton" class="notext" title="...">
+                <img src='blockly/media/1x1.gif' class="link icon21">
+              </button>
+              <button id="runButton" class="notext primary" title="...">
+                <img src='blockly/media/1x1.gif' class="run icon21">
+              </button>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td height="99%" colspan=2 id="content_area">
+      </td>
+    </tr>
+  </table>
+  <div id="content_blocks" class="content"></div>
+  <pre id="content_python" class="content"></pre>
+  <textarea id="content_xml" class="content" wrap="off"></textarea>
+
+  <xml id="toolbox" style="display: none">
+    <category id="catLogic">
+      <block type="controls_if"></block>
+      <block type="logic_compare"></block>
+      <block type="logic_operation"></block>
+      <block type="logic_negate"></block>
+      <block type="logic_boolean"></block>
+      <block type="logic_null"></block>
+      <block type="logic_ternary"></block>
+    </category>
+    <category id="catLoops">
+      <block type="controls_repeat_ext">
+        <value name="TIMES">
+          <block type="math_number">
+            <field name="NUM">10</field>
+          </block>
+        </value>
+      </block>
+      <block type="controls_whileUntil"></block>
+      <block type="controls_for">
+        <value name="FROM">
+          <block type="math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+        <value name="TO">
+          <block type="math_number">
+            <field name="NUM">10</field>
+          </block>
+        </value>
+        <value name="BY">
+          <block type="math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+      </block>
+      <block type="controls_forEach"></block>
+      <block type="controls_flow_statements"></block>
+    </category>
+    <category id="catMath">
+      <block type="math_number"></block>
+      <block type="math_arithmetic"></block>
+      <block type="math_single"></block>
+      <block type="math_trig"></block>
+      <block type="math_constant"></block>
+      <block type="math_number_property"></block>
+      <block type="math_change">
+        <value name="DELTA">
+          <block type="math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+      </block>
+      <block type="math_round"></block>
+      <block type="math_on_list"></block>
+      <block type="math_modulo"></block>
+      <block type="math_constrain">
+        <value name="LOW">
+          <block type="math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+        <value name="HIGH">
+          <block type="math_number">
+            <field name="NUM">100</field>
+          </block>
+        </value>
+      </block>
+      <block type="math_random_int">
+        <value name="FROM">
+          <block type="math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+        <value name="TO">
+          <block type="math_number">
+            <field name="NUM">100</field>
+          </block>
+        </value>
+      </block>
+      <block type="math_random_float"></block>
+    </category>
+    <category id="catText">
+      <block type="text"></block>
+      <block type="text_join"></block>
+      <block type="text_append">
+        <value name="TEXT">
+          <block type="text"></block>
+        </value>
+      </block>
+      <block type="text_length"></block>
+      <block type="text_isEmpty"></block>
+      <block type="text_indexOf">
+        <value name="VALUE">
+          <block type="variables_get">
+            <field name="VAR" class="textVar">...</field>
+          </block>
+        </value>
+      </block>
+      <block type="text_charAt">
+        <value name="VALUE">
+          <block type="variables_get">
+            <field name="VAR" class="textVar">...</field>
+          </block>
+        </value>
+      </block>
+      <block type="text_getSubstring">
+        <value name="STRING">
+          <block type="variables_get">
+            <field name="VAR" class="textVar">...</field>
+          </block>
+        </value>
+      </block>
+      <block type="text_changeCase"></block>
+      <block type="text_trim"></block>
+      <block type="text_print"></block>
+      <block type="text_prompt_ext">
+        <value name="TEXT">
+          <block type="text"></block>
+        </value>
+      </block>
+    </category>
+    <category id="catLists">
+      <block type="lists_create_empty"></block>
+      <block type="lists_create_with"></block>
+      <block type="lists_repeat">
+        <value name="NUM">
+          <block type="math_number">
+            <field name="NUM">5</field>
+          </block>
+        </value>
+      </block>
+      <block type="lists_length"></block>
+      <block type="lists_isEmpty"></block>
+      <block type="lists_indexOf">
+        <value name="VALUE">
+          <block type="variables_get">
+            <field name="VAR" class="listVar">...</field>
+          </block>
+        </value>
+      </block>
+      <block type="lists_getIndex">
+        <value name="VALUE">
+          <block type="variables_get">
+            <field name="VAR" class="listVar">...</field>
+          </block>
+        </value>
+      </block>
+      <block type="lists_setIndex">
+        <value name="LIST">
+          <block type="variables_get">
+            <field name="VAR" class="listVar">...</field>
+          </block>
+        </value>
+      </block>
+      <block type="lists_getSublist">
+        <value name="LIST">
+          <block type="variables_get">
+            <field name="VAR" class="listVar">...</field>
+          </block>
+        </value>
+      </block>
+      <block type="lists_split">
+        <value name="DELIM">
+          <block type="text">
+            <field name="TEXT">,</field>
+          </block>
+        </value>
+      </block>
+    </category>
+    <category id="catColour">
+      <block type="colour_picker"></block>
+      <block type="colour_random"></block>
+      <block type="colour_rgb">
+        <value name="RED">
+          <block type="math_number">
+            <field name="NUM">100</field>
+          </block>
+        </value>
+        <value name="GREEN">
+          <block type="math_number">
+            <field name="NUM">50</field>
+          </block>
+        </value>
+        <value name="BLUE">
+          <block type="math_number">
+            <field name="NUM">0</field>
+          </block>
+        </value>
+      </block>
+      <block type="colour_blend">
+        <value name="COLOUR1">
+          <block type="colour_picker">
+            <field name="COLOUR">#ff0000</field>
+          </block>
+        </value>
+        <value name="COLOUR2">
+          <block type="colour_picker">
+            <field name="COLOUR">#3333ff</field>
+          </block>
+        </value>
+        <value name="RATIO">
+          <block type="math_number">
+            <field name="NUM">0.5</field>
+          </block>
+        </value>
+      </block>
+    </category>
+    <category id="catKr" name="Blockr">
+       <block type="blockr_sleep"></block>
+       <block type="blockr_led"></block>
+       <block type="blockr_buzzer"></block>
+       <block type="blockr_lcd"></block>
+       <block type="blockr_button"></block>
+       <block type="blockr_touch"></block>
+       <block type="blockr_pir"></block>
+       <block type="blockr_light"></block>
+       <block type="blockr_sound"></block>
+       <block type="blockr_wheel"></block>
+    </category>
+    <sep></sep>
+    <category id="catVariables" custom="VARIABLE"></category>
+    <category id="catFunctions" custom="PROCEDURE"></category>
+  </xml>
+
+<!--
+<xml id="startBlocks" style="display:none">
+  <block type="blockr_led" x="113" y="112">
+    <field name="led_switch">1</field>
+  </block>
+</xml>
+<object style="border:0px" type="text/x-scriptlet" data="default_block.xml" width=100% height=30></object>
+<iframe name="content_frame" marginwidth=0 marginheight=0 width=0% height=0 src="default_block.xml" frameborder=0></iframe>
+-->
+
+<xml id="startBlocks" style="display:none">
+  <block type="controls_repeat_ext" x="-338" y="13">
+    <value name="TIMES">
+      <block type="math_number">
+        <field name="NUM">2</field>
+      </block>
+    </value>
+    <statement name="DO">
+      <block type="variables_set">
+        <field name="VAR">有人</field>
+        <value name="VALUE">
+          <block type="blockr_pir"></block>
+        </value>
+        <next>
+          <block type="controls_if">
+            <value name="IF0">
+              <block type="variables_get">
+                <field name="VAR">有人</field>
+              </block>
+            </value>
+            <statement name="DO0">
+              <block type="blockr_led">
+                <field name="led_switch">1</field>
+                <next>
+                  <block type="blockr_wheel">
+                    <field name="wheel_direction">s</field>
+                    <value name="wheel_speed">
+                      <block type="math_number">
+                        <field name="NUM">0</field>
+                      </block>
+                    </value>
+                  </block>
+                </next>
+              </block>
+            </statement>
+            <next>
+              <block type="blockr_buzzer">
+                <field name="buzzer_tone">1</field>
+                <value name="buzzer_time">
+                  <block type="math_number">
+                    <field name="NUM">2</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="blockr_sleep">
+                    <value name="sleep_time_second">
+                      <block type="math_number">
+                        <field name="NUM">2</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="blockr_led">
+                        <field name="led_switch">0</field>
+                        <next>
+                          <block type="blockr_lcd">
+                            <field name="lcd_switch">1</field>
+                            <value name="lcd_r">
+                              <block type="math_number">
+                                <field name="NUM">100</field>
+                              </block>
+                            </value>
+                            <value name="lcd_g">
+                              <block type="math_number">
+                                <field name="NUM">0</field>
+                              </block>
+                            </value>
+                            <value name="lcd_b">
+                              <block type="math_number">
+                                <field name="NUM">0</field>
+                              </block>
+                            </value>
+                            <value name="lcd_content">
+                              <block type="text">
+                                <field name="TEXT">hello</field>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="blockr_wheel">
+                                <field name="wheel_direction">f</field>
+                                <value name="wheel_speed">
+                                  <block type="math_number">
+                                    <field name="NUM">100</field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="blockr_sleep">
+                                    <value name="sleep_time_second">
+                                      <block type="math_number">
+                                        <field name="NUM">2</field>
+                                      </block>
+                                    </value>
+                                    <next>
+                                      <block type="variables_set">
+                                        <field name="VAR">亮度</field>
+                                        <value name="VALUE">
+                                          <block type="blockr_light"></block>
+                                        </value>
+                                        <next>
+                                          <block type="blockr_lcd">
+                                            <field name="lcd_switch">1</field>
+                                            <value name="lcd_r">
+                                              <block type="math_number">
+                                                <field name="NUM">0</field>
+                                              </block>
+                                            </value>
+                                            <value name="lcd_g">
+                                              <block type="math_number">
+                                                <field name="NUM">100</field>
+                                              </block>
+                                            </value>
+                                            <value name="lcd_b">
+                                              <block type="math_number">
+                                                <field name="NUM">0</field>
+                                              </block>
+                                            </value>
+                                            <value name="lcd_content">
+                                              <block type="variables_get">
+                                                <field name="VAR">亮度</field>
+                                              </block>
+                                            </value>
+                                            <next>
+                                              <block type="blockr_wheel">
+                                                <field name="wheel_direction">b</field>
+                                                <value name="wheel_speed">
+                                                  <block type="math_number">
+                                                    <field name="NUM">100</field>
+                                                  </block>
+                                                </value>
+                                                <next>
+                                                  <block type="blockr_sleep">
+                                                    <value name="sleep_time_second">
+                                                      <block type="math_number">
+                                                        <field name="NUM">2</field>
+                                                      </block>
+                                                    </value>
+                                                    <next>
+                                                      <block type="variables_set">
+                                                        <field name="VAR">响度</field>
+                                                        <value name="VALUE">
+                                                          <block type="blockr_sound"></block>
+                                                        </value>
+                                                        <next>
+                                                          <block type="blockr_lcd">
+                                                            <field name="lcd_switch">1</field>
+                                                            <value name="lcd_r">
+                                                              <block type="math_number">
+                                                                <field name="NUM">0</field>
+                                                              </block>
+                                                            </value>
+                                                            <value name="lcd_g">
+                                                              <block type="math_number">
+                                                                <field name="NUM">0</field>
+                                                              </block>
+                                                            </value>
+                                                            <value name="lcd_b">
+                                                              <block type="math_number">
+                                                                <field name="NUM">100</field>
+                                                              </block>
+                                                            </value>
+                                                            <value name="lcd_content">
+                                                              <block type="variables_get">
+                                                                <field name="VAR">亮度</field>
+                                                              </block>
+                                                            </value>
+                                                          </block>
+                                                        </next>
+                                                      </block>
+                                                    </next>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+</xml>
+</body>
+</html>
